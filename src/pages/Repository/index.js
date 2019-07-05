@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList, IssueFilter } from './styles';
+import { Loading, Owner, IssueList, IssueFilter, PageActions } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -81,7 +81,14 @@ export default class Repository extends Component {
   };
 
   render() {
-    const { repository, issues, loading, filterIndex, filters } = this.state;
+    const {
+      repository,
+      issues,
+      loading,
+      filterIndex,
+      filters,
+      page,
+    } = this.state;
 
     if (loading) {
       return <Loading>Carregando</Loading>;
@@ -123,6 +130,19 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssueList>
+        <PageActions>
+          <button
+            type="button"
+            disabled={page < 2}
+            onClick={() => this.handlePage('back')}
+          >
+            Anterior
+          </button>
+          <span>Página {page}</span>
+          <button type="button" onClick={() => this.handlePage('next')}>
+            Próximo
+          </button>
+        </PageActions>
       </Container>
     );
   }
